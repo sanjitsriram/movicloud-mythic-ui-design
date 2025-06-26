@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>404 Not Found</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    svg.me404 {
+      width: 1000px;
+      height: 480px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .st0 { fill-rule:evenodd; clip-rule:evenodd; fill:#E8EBED; }
+    .st1 { fill:#FFFFFF; stroke:#89949B; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .st2 { fill-rule:evenodd; clip-rule:evenodd; fill:#DBDFE1; }
+    .st3 { fill:#FFFFFF; }
+    .st4 { fill-rule:evenodd; clip-rule:evenodd; fill:#E8EBED; stroke:#89949B; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .st5 { fill-rule:evenodd; clip-rule:evenodd; fill:#FFFFFF; stroke:#89949B; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .st6 { fill:none; stroke:#89949B; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .st7 { fill:none; stroke:#89949B; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+    .st8 { fill-rule:evenodd; clip-rule:evenodd; fill:#FFFFFF; stroke:#89949B; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .st9 { fill:#89949B; }
+    .st10 { fill-rule:evenodd; clip-rule:evenodd; fill:#89949B; }
+    .st11 { fill-rule:evenodd; clip-rule:evenodd; fill:none; stroke:#89949B; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .st12 { fill-rule:evenodd; clip-rule:evenodd; fill:#FFFFFF; }
+    .st13 { fill-rule:evenodd; clip-rule:evenodd; fill:#FFFFFF; stroke:#8894A0; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .st14 { fill:none; stroke:#89949B; stroke-linecap:round; stroke-linejoin:round; }
+    .st15 { fill:none; stroke:#89949B; stroke-linecap:round; stroke-linejoin:round; }
+
+    @keyframes cloud { 0% { opacity: .3; transform: skewX(20deg) translate(160px,0) } 65% { opacity:1; transform: skewX(0deg) translate(114px,0) } 100% { opacity:.3; transform: skewX(20deg) translate(160px,0) } }
+    @keyframes moon-float { 0% { transform: translateY(20px) scale(1.1) } 65% { transform: translateY(0) scale(1) } 100% { transform: translateY(20px) scale(1.1) } }
+    @keyframes blink-l { 0%,4%,20%,34%,70%,100% { transform: rotateX(0deg) } 2%,22%,32%,72% { transform: rotateX(80deg) } }
+    @keyframes blink-r { 0%,4%,30%,54%,100% { transform: rotateX(0deg) } 2%,32%,52% { transform: rotateX(80deg) } }
+    @keyframes monkey-arm { 0% { transform: rotate(-10deg) } 50% { transform: rotate(20deg) } 100% { transform: rotate(-10deg) } }
+    @keyframes star1 { 0% { transform: scale(.5) skewX(15deg) rotate(0) } 15% { transform: scale(1) skewX(0) rotate(360deg) } 30%,100% { transform: scale(.5) skewX(15deg) rotate(720deg) } }
+    @keyframes star2 { 0%,15% { transform: scale(.5) skewX(15deg) rotate(0) } 30% { transform: scale(1) skewX(0) rotate(360deg) } 45%,100% { transform: scale(.5) skewX(15deg) rotate(720deg) } }
+    @keyframes star3 { 0%,30% { transform: scale(.5) skewX(15deg) rotate(0) } 45% { transform: scale(1) skewX(0) rotate(360deg) } 60%,100% { transform: scale(.5) skewX(15deg) rotate(720deg) } }
+    @keyframes star4 { 0%,45% { transform: scale(.5) skewX(15deg) rotate(0) } 60% { transform: scale(1) skewX(0) rotate(360deg) } 75%,100% { transform: scale(.5) skewX(15deg) rotate(720deg) } }
+    @keyframes star1-fade { 0% { opacity:0 } 15% { opacity:1 } 30%,100% { opacity:0 } }
+    @keyframes star2-fade { 0%,15% { opacity:0 } 30% { opacity:1 } 45%,100% { opacity:0 } }
+    @keyframes star3-fade { 0%,30% { opacity:0 } 45% { opacity:1 } 60%,100% { opacity:0 } }
+    @keyframes star4-fade { 0%,45% { opacity:0 } 60% { opacity:1 } 75%,100% { opacity:0 } }
+    @keyframes sword { 0%,15% { transform:rotate(-40deg) } 87% { transform:rotate(50deg) } 100% { transform:rotate(-40deg) } }
+    @keyframes tetris-float { 0% { transform: translateY(0) scale(.9) } 65% { transform: translateY(30px) scale(1) } 100% { transform: translateY(0) scale(.9) } }
+    @keyframes rotate { 0% { transform: rotateZ(0) } 25% { transform: rotateZ(90deg) } 50% { transform: rotateZ(180deg) } 75% { transform: rotateZ(270deg) } 100% { transform: rotateZ(360deg) } }
+
+    #cloud { animation: cloud 9s infinite ease-in-out; }
+    #moon { animation: moon-float 6s infinite ease-in-out; transform-origin: 640px 81px; }
+    #monkey-eye-l { animation: blink-l 12s infinite ease-in-out; transform-origin: 191px 257px; }
+    #monkey-eye-r { animation: blink-r 12s infinite ease-in-out; transform-origin: 205px 256px; }
+    #monkey-arm { animation: monkey-arm 4s infinite ease-in-out; transform-origin: 155px 298px; }
+    #star1, #star2, #star3, #star4 { animation: star1 12s infinite linear, star1-fade 12s infinite ease-in-out; transform-origin: center; }
+    #tetris-path { animation: tetris-float 5s infinite ease-in-out; transform-origin: 538px 374px; }
+    #tetris { animation: rotate 10s steps(1) infinite alternate; transform-origin: 538px 374px; }
+    #sword, #sword-path { animation: sword 4s infinite ease-out; transform-origin: 458px 206px; }
+    #triforce { animation: tetris-float 3s infinite ease-in-out; transform-origin: 175px 91px; }
+  </style>
+</head>
+<body>
+  <svg class="me404" viewBox="0 0 1000 480">
+    <!-- SVG content here (same as your original) -->
+  </svg>
+
+  <script>
+    const path = document.getElementById('tail');
+    if (path) {
+      path.setAttribute('d', 'M89,315c2.2-15.2-23-13.2-21.6,4.8c1.7,22.3,24.4,22.1,42.5,9.1c10.8-7.8,15.3-1.8,19.1,1.1 c2.3,1.7,6.7,3.3,11-3');
+    }
+  </script>
+</body>
+</html>
