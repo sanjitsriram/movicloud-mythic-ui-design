@@ -199,25 +199,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotateX(0deg); }
-          50% { transform: translateY(-20px) rotateX(180deg); }
-        }
-        
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        
-        .translateZ-4 {
-          transform: translateZ(4px);
-        }
-        
-        .translateZ-8 {
-          transform: translateZ(8px);
-        }
-      `}</style>
     </section>
   );
 };
