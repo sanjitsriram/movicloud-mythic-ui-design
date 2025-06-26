@@ -1,9 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Brain, Cloud, Smartphone, Shield, Code } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 const ServicesPreview = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const services = [
     {
       icon: Brain,
@@ -38,7 +40,7 @@ const ServicesPreview = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-20 relative" style={{ perspective: '1000px' }}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
@@ -53,27 +55,102 @@ const ServicesPreview = () => {
           {services.map((service, index) => (
             <Card 
               key={index}
-              className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+              className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+              style={{
+                transform: hoveredIndex === index 
+                  ? 'perspective(1000px) rotateX(-10deg) rotateY(5deg) translateZ(50px) scale(1.05)' 
+                  : hoveredIndex !== null 
+                    ? 'perspective(1000px) rotateX(2deg) scale(0.95) translateZ(-20px)'
+                    : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)',
+                transformStyle: 'preserve-3d',
+                transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
               <CardContent className="p-8 text-center relative">
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                {/* Enhanced 3D Background Gradient */}
+                <div 
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                  style={{
+                    transform: 'translateZ(-10px)',
+                    borderRadius: '12px'
+                  }}
+                ></div>
                 
-                {/* Icon Container */}
-                <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <service.icon className="h-8 w-8 text-white" />
+                {/* 3D Icon Container */}
+                <div 
+                  className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg transition-all duration-500 relative`}
+                  style={{
+                    transform: hoveredIndex === index 
+                      ? 'translateZ(30px) rotateY(360deg) scale(1.2)' 
+                      : 'translateZ(10px) rotateY(0deg) scale(1)',
+                    transformStyle: 'preserve-3d'
+                  }}
+                >
+                  {/* Icon shadow for depth */}
+                  <div 
+                    className="absolute inset-0 rounded-2xl bg-black/20 blur-md"
+                    style={{
+                      transform: 'translateZ(-5px) translateY(5px)',
+                      opacity: hoveredIndex === index ? 0.3 : 0
+                    }}
+                  ></div>
+                  
+                  <service.icon 
+                    className="h-8 w-8 text-white relative z-10" 
+                    style={{
+                      transform: hoveredIndex === index ? 'translateZ(5px)' : 'translateZ(0px)',
+                      transition: 'transform 0.3s ease-out'
+                    }}
+                  />
                 </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {service.description}
-                </p>
+                {/* 3D Content */}
+                <div
+                  style={{
+                    transform: hoveredIndex === index ? 'translateZ(20px)' : 'translateZ(5px)',
+                    transition: 'transform 0.3s ease-out'
+                  }}
+                >
+                  <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
 
-                {/* Hover Effect */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                {/* Enhanced 3D Hover Effect Line */}
+                <div 
+                  className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500 origin-left"
+                  style={{
+                    transform: hoveredIndex === index 
+                      ? 'scaleX(1) translateZ(15px)' 
+                      : 'scaleX(0) translateZ(0px)',
+                    transition: 'transform 0.3s ease-out',
+                    transformOrigin: 'left center'
+                  }}
+                ></div>
+
+                {/* 3D Particle Effects */}
+                {hoveredIndex === index && (
+                  <div className="absolute inset-0 pointer-events-none">
+                    {[...Array(6)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-2 h-2 bg-blue-400 rounded-full animate-ping"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          animationDelay: `${i * 0.1}s`,
+                          animationDuration: '1s',
+                          transform: `translateZ(${20 + i * 5}px)`
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
