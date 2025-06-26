@@ -1,189 +1,244 @@
 
 import React, { useState } from 'react';
-import { Brain, Cloud, Smartphone, Shield, Code, X, ArrowRight } from 'lucide-react';
+import { Brain, Cloud, Smartphone, Shield, Code, ArrowRight, Check, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useScrollAnimation, useElementInView } from '@/hooks/useScrollAnimation';
 
 const Services = () => {
-  const [selectedService, setSelectedService] = useState(null);
+  const [activeService, setActiveService] = useState(0);
+  const { scrollY, scrollProgress } = useScrollAnimation();
+  const [heroRef, heroInView] = useElementInView(0.2);
+  const [servicesRef, servicesInView] = useElementInView(0.1);
 
   const services = [
     {
       icon: Brain,
       title: 'AI & Data Engineering',
-      shortDescription: 'Machine learning models, data pipelines, and intelligent automation solutions.',
-      fullDescription: 'Transform your business with cutting-edge artificial intelligence and data engineering solutions. Our team of ML engineers and data scientists build custom AI models, implement robust data pipelines, and create intelligent automation systems that drive real business value.',
-      features: [
-        'Custom Machine Learning Models',
-        'Predictive Analytics & Forecasting',
-        'Natural Language Processing',
-        'Computer Vision Solutions',
-        'Real-time Data Processing',
-        'AI Ethics & Governance',
-        'MLOps & Model Deployment',
-        'Data Pipeline Architecture'
-      ],
-      technologies: ['Python', 'TensorFlow', 'PyTorch', 'Apache Spark', 'Kubernetes', 'MLflow', 'Apache Airflow', 'AWS SageMaker'],
+      description: 'Transform your data into intelligent insights with cutting-edge machine learning models and automated analytics.',
+      features: ['Machine Learning Models', 'Natural Language Processing', 'Computer Vision', 'Predictive Analytics', 'Data Pipeline Automation'],
       color: 'from-blue-500 to-cyan-500',
-      projects: [
-        { name: 'Healthcare Diagnostic AI', result: '99.2% accuracy improvement' },
-        { name: 'Financial Fraud Detection', result: '85% reduction in false positives' },
-        { name: 'Supply Chain Optimization', result: '30% cost reduction' }
-      ]
+      bgColor: 'from-blue-50 to-cyan-50'
     },
     {
       icon: Cloud,
       title: 'Cloud & DevOps',
-      shortDescription: 'Scalable cloud infrastructure, CI/CD pipelines, and automated deployment.',
-      fullDescription: 'Accelerate your digital transformation with our comprehensive cloud and DevOps solutions. We design, implement, and manage scalable cloud architectures that grow with your business while ensuring security, reliability, and cost-effectiveness.',
-      features: [
-        'Multi-Cloud Architecture Design',
-        'Containerization & Orchestration',
-        'CI/CD Pipeline Implementation',
-        'Infrastructure as Code',
-        'Cloud Migration Services',
-        'Monitoring & Observability',
-        'Security & Compliance',
-        'Cost Optimization'
-      ],
-      technologies: ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Terraform', 'Jenkins', 'Prometheus', 'Grafana'],
+      description: 'Scale seamlessly with robust cloud infrastructure, automated deployments, and enterprise-grade security.',
+      features: ['Cloud Migration', 'Kubernetes Orchestration', 'CI/CD Pipelines', 'Infrastructure as Code', 'Monitoring & Alerting'],
       color: 'from-indigo-500 to-purple-500',
-      projects: [
-        { name: 'FinTech Platform Migration', result: '99.99% uptime achieved' },
-        { name: 'E-commerce Auto-scaling', result: '60% infrastructure cost savings' },
-        { name: 'Healthcare Compliance Cloud', result: 'HIPAA certification in 3 months' }
-      ]
+      bgColor: 'from-indigo-50 to-purple-50'
     },
     {
       icon: Smartphone,
       title: 'Web & Mobile Apps',
-      shortDescription: 'Modern, responsive applications built with cutting-edge technologies.',
-      fullDescription: 'Create exceptional digital experiences with our full-stack development services. From responsive web applications to native mobile apps, we build products that users love and businesses depend on.',
-      features: [
-        'Progressive Web Applications',
-        'Native Mobile Development',
-        'Cross-platform Solutions',
-        'API Design & Development',
-        'UI/UX Design',
-        'Performance Optimization',
-        'Accessibility Compliance',
-        'Third-party Integrations'
-      ],
-      technologies: ['React', 'Vue.js', 'React Native', 'Flutter', 'Node.js', 'Python', 'PostgreSQL', 'MongoDB'],
+      description: 'Create exceptional user experiences with modern, responsive applications built for performance and scale.',
+      features: ['React & Next.js', 'Mobile-First Design', 'Progressive Web Apps', 'API Development', 'Performance Optimization'],
       color: 'from-emerald-500 to-teal-500',
-      projects: [
-        { name: 'B2B SaaS Platform', result: '500K+ active users' },
-        { name: 'Healthcare Mobile App', result: '4.9 star rating' },
-        { name: 'E-learning Platform', result: '2M+ course enrollments' }
-      ]
+      bgColor: 'from-emerald-50 to-teal-50'
     },
     {
       icon: Shield,
       title: 'IT Strategy & Support',
-      shortDescription: 'Strategic technology consulting and comprehensive IT support services.',
-      fullDescription: 'Navigate the complex technology landscape with our strategic IT consulting and support services. We help you make informed decisions, implement best practices, and maintain secure, efficient IT operations.',
-      features: [
-        'Digital Transformation Strategy',
-        'Technology Roadmap Planning',
-        'IT Security Assessments',
-        'Vendor Selection & Management',
-        '24/7 Technical Support',
-        'Backup & Disaster Recovery',
-        'Compliance & Governance',
-        'Training & Knowledge Transfer'
-      ],
-      technologies: ['ITIL', 'COBIT', 'ISO 27001', 'SOC 2', 'PCI DSS', 'GDPR', 'ServiceNow', 'Microsoft 365'],
+      description: 'Strategic technology planning and comprehensive support to align your IT infrastructure with business goals.',
+      features: ['Technology Consulting', 'Security Auditing', 'Digital Transformation', '24/7 Support', 'Compliance Management'],
       color: 'from-orange-500 to-red-500',
-      projects: [
-        { name: 'Enterprise Digital Strategy', result: '40% operational efficiency gain' },
-        { name: 'Cybersecurity Overhaul', result: 'Zero security incidents in 2 years' },
-        { name: 'IT Modernization Program', result: '$2M annual cost savings' }
-      ]
+      bgColor: 'from-orange-50 to-red-50'
     },
     {
       icon: Code,
-      title: 'Custom Software Development',
-      shortDescription: 'Bespoke software solutions tailored to your unique business requirements.',
-      fullDescription: 'Solve unique business challenges with custom software solutions designed specifically for your needs. Our experienced development team creates scalable, maintainable applications that integrate seamlessly with your existing systems.',
-      features: [
-        'Requirements Analysis',
-        'Custom Application Development',
-        'Legacy System Modernization',
-        'API Integration Services',
-        'Database Design & Optimization',
-        'Performance Tuning',
-        'Quality Assurance Testing',
-        'Ongoing Maintenance & Support'
-      ],
-      technologies: ['Java', 'C#', '.NET', 'Python', 'Go', 'Ruby', 'PHP', 'PostgreSQL', 'Oracle', 'Redis'],
+      title: 'Custom Software',
+      description: 'Bespoke software solutions tailored to your unique business requirements and industry challenges.',
+      features: ['Enterprise Applications', 'API Integration', 'Legacy System Modernization', 'Microservices Architecture', 'Custom Workflows'],
       color: 'from-purple-500 to-pink-500',
-      projects: [
-        { name: 'Enterprise Resource Planning', result: 'Streamlined operations for 10K+ employees' },
-        { name: 'Custom CRM Solution', result: '25% increase in sales productivity' },
-        { name: 'Manufacturing Execution System', result: '20% reduction in production time' }
-      ]
+      bgColor: 'from-purple-50 to-pink-50'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/40">
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/40 relative overflow-hidden">
+      {/* 3D Background Elements */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute"
+            style={{
+              width: `${20 + i * 5}px`,
+              height: `${20 + i * 5}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              background: `linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1))`,
+              borderRadius: i % 2 === 0 ? '50%' : '0%',
+              transform: `
+                perspective(1000px) 
+                translateZ(${scrollY * 0.05 + i * 25}px) 
+                rotateX(${scrollProgress * 180 + i * 45}deg) 
+                rotateY(${scrollProgress * -120 + i * 30}deg)
+              `,
+              transition: 'transform 0.1s ease-out'
+            }}
+          />
+        ))}
+      </div>
+
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section 
+        ref={heroRef}
+        className="pt-32 pb-20 relative"
+        style={{
+          transform: `perspective(1000px) translateZ(${-scrollY * 0.3}px) rotateX(${scrollY * 0.01}deg)`,
+          transition: 'transform 0.1s ease-out'
+        }}
+      >
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900">
-              Our <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Services</span>
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              Comprehensive technology solutions designed to accelerate your digital transformation journey. 
-              From AI-powered insights to cloud-native architectures, we deliver results that matter.
-            </p>
+            <div 
+              className={`transition-all duration-1000 ${heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              style={{
+                transform: `perspective(1000px) translateZ(${heroInView ? 50 : 0}px)`,
+                transition: 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+              }}
+            >
+              <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Transform Your Business
+                </span>
+                <br />
+                <span className="text-gray-900">with Advanced Technology</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed">
+                From AI-powered solutions to cloud infrastructure, we deliver comprehensive 
+                technology services that drive innovation and growth.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20">
+      <section 
+        ref={servicesRef}
+        className="py-20 relative"
+      >
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+              Our <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Services</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <Card 
                 key={index}
-                className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer bg-white/80 backdrop-blur-sm"
-                onClick={() => setSelectedService(service)}
+                className="group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-700 cursor-pointer"
+                style={{
+                  transform: `perspective(1000px) translateZ(${servicesInView ? 30 + index * 15 : 0}px) rotateY(${servicesInView ? 0 : 20}deg) translateY(${servicesInView ? 0 : 50}px)`,
+                  opacity: servicesInView ? 1 : 0,
+                  transition: `all ${0.8 + index * 0.1}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`
+                }}
+                onMouseEnter={() => setActiveService(index)}
               >
-                <CardContent className="p-8 text-center relative h-full flex flex-col">
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
-                  {/* Icon Container */}
-                  <div className={`w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                {/* 3D Background Gradient */}
+                <div 
+                  className={`absolute inset-0 bg-gradient-to-br ${service.bgColor} opacity-0 group-hover:opacity-60 transition-all duration-500`}
+                  style={{
+                    transform: 'translateZ(-10px)',
+                    borderRadius: '12px'
+                  }}
+                />
+
+                <CardContent className="p-8 relative">
+                  {/* 3D Icon Container */}
+                  <div 
+                    className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-all duration-500 shadow-lg`}
+                    style={{
+                      transform: `perspective(1000px) translateZ(${activeService === index ? 40 : 20}px) rotateY(${scrollProgress * 180}deg)`,
+                      transition: 'transform 0.5s ease-out'
+                    }}
+                  >
                     <service.icon className="h-10 w-10 text-white" />
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed flex-grow mb-6">
-                    {service.shortDescription}
-                  </p>
-
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-center text-blue-600 hover:text-blue-700 hover:bg-blue-50 group/btn"
+                  {/* 3D Content */}
+                  <div
+                    style={{
+                      transform: `perspective(1000px) translateZ(${activeService === index ? 25 : 10}px)`,
+                      transition: 'transform 0.3s ease-out'
+                    }}
                   >
-                    Learn More
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
+                    <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-600 mb-6 leading-relaxed">
+                      {service.description}
+                    </p>
 
-                  {/* Hover Effect */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                    {/* Feature List */}
+                    <ul className="space-y-3 mb-8">
+                      {service.features.map((feature, idx) => (
+                        <li 
+                          key={idx} 
+                          className="flex items-center text-sm text-gray-600"
+                          style={{
+                            transform: `perspective(1000px) translateZ(${activeService === index ? 15 + idx * 3 : 5}px)`,
+                            transition: `transform ${0.2 + idx * 0.05}s ease-out`,
+                            transitionDelay: `${idx * 50}ms`
+                          }}
+                        >
+                          <Check className="h-4 w-4 text-emerald-500 mr-3 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-between text-blue-600 hover:text-blue-700 hover:bg-blue-50 group/btn"
+                      style={{
+                        transform: `perspective(1000px) translateZ(${activeService === index ? 20 : 10}px)`,
+                        transition: 'transform 0.3s ease-out'
+                      }}
+                    >
+                      Learn More
+                      <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+
+                  {/* 3D Hover Line */}
+                  <div 
+                    className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500 origin-left"
+                    style={{
+                      transform: activeService === index 
+                        ? 'scaleX(1) translateZ(20px)' 
+                        : 'scaleX(0) translateZ(0px)',
+                      transition: 'transform 0.3s ease-out',
+                      transformOrigin: 'left center'
+                    }}
+                  />
+
+                  {/* 3D Floating Particles */}
+                  {activeService === index && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      {[...Array(8)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-1 bg-blue-400 rounded-full animate-ping"
+                          style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                            animationDelay: `${i * 0.2}s`,
+                            animationDuration: '2s',
+                            transform: `translateZ(${30 + i * 10}px)`
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -191,84 +246,81 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Service Details Modal */}
-      <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-          {selectedService && (
-            <div>
-              <DialogHeader>
-                <DialogTitle className="text-3xl font-bold flex items-center">
-                  <div className={`w-12 h-12 mr-4 rounded-2xl bg-gradient-to-br ${selectedService.color} flex items-center justify-center`}>
-                    <selectedService.icon className="h-6 w-6 text-white" />
-                  </div>
-                  {selectedService.title}
-                </DialogTitle>
-              </DialogHeader>
-              
-              <div className="mt-6 space-y-8">
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  {selectedService.fullDescription}
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xl font-bold mb-4 text-gray-900">Key Features</h3>
-                    <ul className="space-y-2">
-                      {selectedService.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-gray-600">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold mb-4 text-gray-900">Technologies</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedService.technologies.map((tech, idx) => (
-                        <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Success Stories</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {selectedService.projects.map((project, idx) => (
-                      <div key={idx} className="p-4 bg-gray-50 rounded-lg">
-                        <h4 className="font-semibold text-gray-900 mb-2">{project.name}</h4>
-                        <p className="text-sm text-green-600 font-medium">{project.result}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button 
-                    size="lg"
-                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold flex-1"
-                  >
-                    Get Started
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg font-semibold flex-1"
-                  >
-                    Schedule Consultation
-                  </Button>
-                </div>
-              </div>
+      {/* CTA Section with 3D Effects */}
+      <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden">
+        {/* 3D Geometric Shapes */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(12)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute border border-white/20 rounded-lg"
+              style={{
+                width: `${40 + i * 20}px`,
+                height: `${40 + i * 20}px`,
+                top: `${10 + (i * 8)}%`,
+                left: `${5 + (i * 7)}%`,
+                transform: `
+                  perspective(1000px) 
+                  rotateX(${45 + scrollProgress * 180 + i * 30}deg) 
+                  rotateY(${45 + scrollProgress * 120 + i * 45}deg) 
+                  translateZ(${50 + i * 20}px)
+                `,
+                transformStyle: 'preserve-3d',
+                animation: `float ${3 + i * 0.5}s ease-in-out infinite`,
+                animationDelay: `${i * 0.3}s`,
+                transition: 'transform 0.1s ease-out'
+              }}
+            >
+              <div className="w-full h-full bg-gradient-to-br from-white/10 to-white/5 rounded-lg backdrop-blur-sm" />
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          ))}
+        </div>
 
-      <Footer />
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <div 
+            className="max-w-4xl mx-auto"
+            style={{
+              transform: `perspective(1000px) translateZ(50px) rotateX(${scrollProgress * -3}deg)`,
+              transition: 'transform 0.1s ease-out'
+            }}
+          >
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8">
+              Ready to Transform Your Business?
+            </h2>
+            <p className="text-xl text-blue-100 mb-12 leading-relaxed">
+              Let's discuss how our technology solutions can accelerate your digital transformation 
+              and drive measurable results for your organization.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button 
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:translateZ-4"
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                Start Your Project
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:translateZ-4"
+                style={{ transformStyle: 'preserve-3d' }}
+              >
+                Schedule Consultation
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div 
+        style={{
+          transform: `perspective(1000px) translateZ(${scrollY * 0.02}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}
+      >
+        <Footer />
+      </div>
     </div>
   );
 };

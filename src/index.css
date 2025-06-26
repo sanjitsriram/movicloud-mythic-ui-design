@@ -103,7 +103,7 @@
   }
 }
 
-/* Custom 3D animations */
+/* Enhanced 3D animations and utilities */
 @keyframes float {
   0%, 100% { 
     transform: translateY(0px) rotateX(0deg); 
@@ -113,8 +113,51 @@
   }
 }
 
+@keyframes float-gentle {
+  0%, 100% { 
+    transform: translateY(0px) rotateZ(0deg); 
+  }
+  50% { 
+    transform: translateY(-10px) rotateZ(5deg); 
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) translateZ(50px);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) translateZ(50px);
+  }
+}
+
+@keyframes parallax-float {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  33% {
+    transform: translateY(-15px) rotateX(10deg) rotateY(120deg);
+  }
+  66% {
+    transform: translateY(-8px) rotateX(-5deg) rotateY(240deg);
+  }
+}
+
+@keyframes depth-pulse {
+  0%, 100% {
+    transform: perspective(1000px) translateZ(0px) scale(1);
+  }
+  50% {
+    transform: perspective(1000px) translateZ(30px) scale(1.05);
+  }
+}
+
 .perspective-1000 {
   perspective: 1000px;
+}
+
+.perspective-1500 {
+  perspective: 1500px;
 }
 
 .translateZ-4 {
@@ -123,4 +166,86 @@
 
 .translateZ-8 {
   transform: translateZ(8px);
+}
+
+.translateZ-12 {
+  transform: translateZ(12px);
+}
+
+.translateZ-16 {
+  transform: translateZ(16px);
+}
+
+.translateZ-20 {
+  transform: translateZ(20px);
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* 3D Animation Classes */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+.animate-parallax-float {
+  animation: parallax-float 8s ease-in-out infinite;
+}
+
+.animate-depth-pulse {
+  animation: depth-pulse 3s ease-in-out infinite;
+}
+
+/* Hover 3D Effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-lift:hover {
+  transform: perspective(1000px) translateZ(20px) rotateX(-5deg);
+}
+
+.hover-tilt {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-tilt:hover {
+  transform: perspective(1000px) rotateY(10deg) rotateX(5deg);
+}
+
+/* Scroll-triggered animations */
+.scroll-parallax {
+  will-change: transform;
+}
+
+/* Enhanced glassmorphism with 3D depth */
+.glass-3d {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize animations for performance */
+.optimized-animation {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
